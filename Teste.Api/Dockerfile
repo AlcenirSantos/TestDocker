@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["teste_docker.csproj", "teste_docker/"]
-RUN dotnet restore "./teste_docker.csproj"
+COPY ["Teste.Api/Teste.Api.csproj", "Teste.Api/"]
+RUN dotnet restore "./Teste.Api/Teste.Api.csproj"
 COPY . .
-WORKDIR "/src/teste_docker"
-RUN dotnet build "./teste_docker.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Teste.Api"
+RUN dotnet build "./Teste.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./teste_docker.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Teste.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "teste_docker.dll"]
+ENTRYPOINT ["dotnet", "Teste.Api.dll"]

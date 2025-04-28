@@ -1,4 +1,4 @@
-namespace teste_docker
+namespace Teste.Api
 {
     public class WeatherForecast
     {

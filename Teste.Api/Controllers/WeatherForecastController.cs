@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace teste_docker.Controllers
+namespace Teste.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
